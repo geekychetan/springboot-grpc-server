@@ -31,12 +31,19 @@
 		<grpc.version>1.69.0</grpc.version>
 		<protobuf-java.version>3.25.5</protobuf-java.version>
 		<spring-grpc.version>0.3.0</spring-grpc.version>
+		<spring-javaformat-maven-plugin.version>0.0.39</spring-javaformat-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-services</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.grpc</groupId>
 			<artifactId>spring-grpc-spring-boot-starter</artifactId>
@@ -82,6 +89,21 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring-javaformat-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<?m2e ignore?>
+						<phase>validate</phase>
+						<inherited>true</inherited>
+						<goals>
+							<goal>validate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
 				<version>0.6.1</version>
@@ -89,6 +111,8 @@
 					<protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
 					<pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+					<!-- <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+                	<outputDirectoryGrpc>${project.build.directory}/generated-sources/protobuf/grpc-java</outputDirectoryGrpc> -->
 				</configuration>
 				<executions>
 					<execution>
