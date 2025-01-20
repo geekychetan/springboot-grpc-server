@@ -1,24 +1,19 @@
 package com.geekychetan.springboot_grpc_server;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.grpc.server.service.GrpcService;
 
 import io.grpc.stub.StreamObserver;
 
 @GrpcService
-public class GrpcServerService extends SimpleGrpc.SimpleImplBase {
-
-	private static Log logger = LogFactory.getLog(GrpcServerService.class);
+public class GrpcServerService extends UserServiceGrpc.UserServiceImplBase {
 
 	@Override
-	public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-		logger.info("Request received from client: " + request.getName());
-		// super.sayHello(request, responseObserver);
-		HelloReply response = HelloReply.newBuilder()
-			.setMessage("Hey... " + request.getName() + ", Welcome to Geek on Wheels!")
+	public void getUserDetails(UserRequest request, StreamObserver<UserResponse> responseObserver) {
+		System.out.println("Request received from client: " + request.getId());
+		UserResponse userResponse = UserResponse.newBuilder()
+			.setName("Name of the user id: " + request.getId() + " is 'CHAI'")
 			.build();
-		responseObserver.onNext(response);
+		responseObserver.onNext(userResponse);
 		responseObserver.onCompleted();
 	}
 
